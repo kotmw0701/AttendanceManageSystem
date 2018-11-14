@@ -1,0 +1,27 @@
+﻿<Window x:Class="AttendanceManageSystem2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AttendanceManageSystem2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1366" SourceInitialized="Window_SourceInitialized" WindowStyle="None" WindowState="Maximized">
+    <Window.DataContext>
+        <local:StudentIDManager/>
+    </Window.DataContext>
+    <Grid Background="#FFFFF2B9">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="97*"/>
+            <ColumnDefinition Width="101*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="何書こうとしたんだっけここ&#xD;&#xA;遅刻まであと何分とか？&#xD;&#xA;授業名？&#xD;&#xA;日付？🤔" Margin="481,54,509,0" Height="199" Width="368" FontSize="36" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
+        <Label Content="学籍番号" Margin="0,0,10,316" FontSize="48" HorizontalAlignment="Right" Width="268" FontFamily="Microsoft Sans Serif" Height="80" VerticalAlignment="Bottom"/>
+        <Border BorderBrush="#FFB4B4B4" BorderThickness="2" CornerRadius="10" Margin="49,0,0,316" Grid.Column="1" HorizontalAlignment="Left" Width="386" Height="80" VerticalAlignment="Bottom">
+            <Label FontSize="48" Grid.Column="1" VerticalAlignment="Top" Margin="0" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontFamily="Microsoft Sans Serif" Content="{Binding StudentID}" />
+        </Border>
+        <Border BorderBrush="#FFB4B4B4" BorderThickness="2" CornerRadius="10" Margin="49,0,0,174" Grid.Column="1" HorizontalAlignment="Left" Width="386" Height="80" VerticalAlignment="Bottom">
+            <Label Content="{Binding Time}" FontSize="48" Width="335" Grid.Column="1" Margin="24,0,19,0" HorizontalAlignment="Center" FontFamily="Microsoft Sans Serif" VerticalAlignment="Top" />
+        </Border>
+        <Label Content="登校時刻" Margin="0,0,10,174" FontSize="48" Width="268" FontFamily="Microsoft Sans Serif" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+    </Grid>
+</Window>
