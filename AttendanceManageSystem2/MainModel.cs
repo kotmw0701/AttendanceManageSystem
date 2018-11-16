@@ -9,27 +9,25 @@ using System.Threading.Tasks;
 namespace AttendanceManageSystem2 {
     class MainModel {
 
-        private readonly FirebaseManager _firebaseManager = new FirebaseManager();
-
         #region アカウント
 
         public string Email {
             get {
-                return _firebaseManager.Email;
+                return FirebaseManager.Instance.Email;
             }
             set {
                 if(value != null)
-                    _firebaseManager.Email = value;
+                    FirebaseManager.Instance.Email = value;
             }
         }
 
         public SecureString Password {
             get {
-                return _firebaseManager.Password;
+                return FirebaseManager.Instance.Password;
             }
             set {
                 if (value != null)
-                    _firebaseManager.Password = value;
+                    FirebaseManager.Instance.Password = value;
             }
         }
 
@@ -39,7 +37,7 @@ namespace AttendanceManageSystem2 {
         public RelayCommand SignInCommand {
             get {
                 return this._signInCommand = this._signInCommand ?? new RelayCommand(async () => {
-                    await _firebaseManager.SignInAsync();
+                    await FirebaseManager.Instance.SignInAsync();
                 });
             }
         }
@@ -48,7 +46,7 @@ namespace AttendanceManageSystem2 {
         public RelayCommand SignUpCommand {
             get {   
                 return this._signUpCommand = this._signUpCommand ?? new RelayCommand(async () => {
-                    await _firebaseManager.SignUpAsync();
+                    await FirebaseManager.Instance.SignUpAsync();
                 });
             }
         }

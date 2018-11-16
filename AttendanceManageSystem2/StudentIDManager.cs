@@ -45,16 +45,19 @@ namespace AttendanceManageSystem2 {
                 while (!token.IsCancellationRequested) {
                 //引数1 : 遅延処理
                 //引数2 : 非同期したい処理の内容
-                    await Task.WhenAll(Task.Delay(50), Task.Run(() => {
+                    await Task.WhenAll(Task.Delay(50), Task.Run(async () => {
                         string studentId = felica.GetStudentID();
                         if (!prevId.Equals(studentId)) {
-                            StudentID = studentId;
-                            string date = "";
-                            if (studentId != "") {
+                            if (studentId == "") {
+                                StudentID = "";
+                                Time = "";
+                            } else {
+                                StudentID = studentId;
                                 DateTime dateTime = DateTime.Now;
-                                date = dateTime.ToString("HH時mm分ss秒");
+                                Time = dateTime.ToString("HH時mm分ss秒");
+                                await FirebaseManager.Instance.PushDataBase(studentId, dateTime);
+                                Console.WriteLine(StudentID + " : " + dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
                             }
-                            Time = date;
                         }
                         prevId = studentId;
                     }, token));

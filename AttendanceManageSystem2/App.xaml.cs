@@ -13,7 +13,6 @@ namespace AttendanceManageSystem2 {
     public partial class App : Application {
 
         public App() : base() {
-
         }
     }
 }

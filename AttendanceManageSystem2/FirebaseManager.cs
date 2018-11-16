@@ -5,6 +5,7 @@ using Google.Cloud.Firestore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -15,7 +16,18 @@ using System.Windows;
 namespace AttendanceManageSystem2 {
     public class FirebaseManager {
 
+        #region Singleton
+
+        public static FirebaseManager Instance { get; } = new FirebaseManager();
+
+        private FirebaseManager() { }
+
+        #endregion
+
         private FirebaseAuthLink _authLink;
+
+        private FirestoreDb db;
+        private CollectionReference collection;
 
         #region アカウント
 
@@ -24,6 +36,8 @@ namespace AttendanceManageSystem2 {
         public SecureString Password { get; set; }
 
         #endregion
+
+
 
         #region 認証
 
@@ -39,10 +53,14 @@ namespace AttendanceManageSystem2 {
 
                 MessageBox.Show("ログインしました(/・ω・)/", "いんふぉめーそん", MessageBoxButton.OK);
 
-                await Test();
+                //雑だけどちょっとここ置いとく
+                Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Properties.Settings.Default.JsonPath);
+                
+                db = FirestoreDb.Create(Properties.Settings.Default.ProjectID);
+                collection = db.Collection("students");
 
-                /*MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();*/
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
             } catch (FirebaseAuthException e) {
                 Console.WriteLine(e.Reason);
                 string errorMessage = "";
@@ -84,54 +102,8 @@ namespace AttendanceManageSystem2 {
 
         #endregion
 
-        public ChildQuery GetDatabaseQuery(String path = null) {
-            if (_authLink == null)
-                throw new NullReferenceException();
-            return new FirebaseClient(
-                "https://is12-a4cef.firebaseio.com",
-                new FirebaseOptions {
-                    AuthTokenAsyncFactory = () => Task.FromResult(this._authLink.FirebaseToken),
-                })
-                .Child(path ?? "Test");
-        }
-
-        public async Task UploadTextToDatabaseAsync() {
-            try {
-                var query = GetDatabaseQuery("学籍番号じゃね");
-                await query.PostAsync(new TestData() { Value = "データベースさん聞こえてますかー" });
-
-                MessageBox.Show("データベースに投げることに成功しました", "成功", MessageBoxButton.OK);
-            } catch (FirebaseException e) {
-                MessageBox.Show(e.ResponseData, "エラー", MessageBoxButton.OK);
-            } catch {
-                MessageBox.Show("例外が発生しました。", "エラー", MessageBoxButton.OK);
-            }
-        }
-
-        public async Task Test() {
-            FirestoreDb db = FirestoreDb.Create("is12-a4cef");
-            CollectionReference collection = db.Collection("users");
-            DocumentReference document = await collection.AddAsync(new { Name = new { First = "Ada", Last = "Lovelace" }, Born = 1815 });
-
-            DocumentSnapshot snapshot = await document.GetSnapshotAsync();
-
-            Console.WriteLine(snapshot.GetValue<string>("Name.First"));
-            Console.WriteLine(snapshot.GetValue<string>("Name.Last"));
-            Console.WriteLine(snapshot.GetValue<int>("Born"));
-
-            Dictionary<string, object> data = snapshot.ToDictionary();
-            Dictionary<String, object> name = (Dictionary<string, object>) data["name"];
-            Console.WriteLine(name["First"]);
-            Console.WriteLine(name["Last"]);
-
-            Query query = collection.WhereLessThan("Born", 1900);
-            QuerySnapshot querySnapShot = await query.GetSnapshotAsync();
-            foreach (DocumentSnapshot queryResult in querySnapShot.Documents) {
-                string firstName = queryResult.GetValue<string>("Name.First");
-                string lastName = queryResult.GetValue<string>("Name.Last");
-                int born = queryResult.GetValue<int>("Born");
-                Console.WriteLine($"{firstName} {lastName}; born {born}");
-            }
+        public async Task PushDataBase(string studentID, DateTime time) {
+            await collection.AddAsync(new { StudentID = studentID, Time = time.ToString("yyyy-MM-dd HH:mm:ss") });
         }
     }
 }

@@ -31,5 +31,24 @@ namespace AttendanceManageSystem2.Properties {
                 return ((string)(this["Token"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("is12-a4cef")]
+        public string ProjectID {
+            get {
+                return ((string)(this["ProjectID"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\G018C1131\\source\\repos\\AttendanceManageSystem2\\AttendanceManageSystem2\\I" +
+            "S12-6c1175771a11.json")]
+        public string JsonPath {
+            get {
+                return ((string)(this["JsonPath"]));
+            }
+        }
     }
 }

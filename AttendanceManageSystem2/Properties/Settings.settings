@@ -5,5 +5,11 @@
     <Setting Name="Token" Type="System.String" Scope="Application">
       <Value Profile="(Default)">AIzaSyD8hzQtXXGa8SQEpnQ5Yb_pydnWPJDZ1eE</Value>
     </Setting>
+    <Setting Name="ProjectID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">is12-a4cef</Value>
+    </Setting>
+    <Setting Name="JsonPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\G018C1131\source\repos\AttendanceManageSystem2\AttendanceManageSystem2\IS12-6c1175771a11.json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
