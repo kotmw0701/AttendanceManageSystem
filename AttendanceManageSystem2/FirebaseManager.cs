@@ -57,7 +57,7 @@ namespace AttendanceManageSystem2 {
                 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Properties.Settings.Default.JsonPath);
                 
                 db = FirestoreDb.Create(Properties.Settings.Default.ProjectID);
-                collection = db.Collection("students");
+                collection = db.Collection("AttendanceData");
 
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
@@ -103,7 +103,7 @@ namespace AttendanceManageSystem2 {
         #endregion
 
         public async Task PushDataBase(string studentID, DateTime time) {
-            await collection.AddAsync(new { StudentID = studentID, Time = time.ToString("yyyy-MM-dd HH:mm:ss") });
+            await collection.AddAsync(new { StudentID = studentID, Time = time });
         }
     }
 }
